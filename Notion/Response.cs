@@ -1,6 +1,6 @@
 ﻿namespace Qotion.Notion;
 
-public class API
+public class Response
 {
     
 }

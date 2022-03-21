@@ -5,38 +5,22 @@ namespace Qotion.OneBot;
 
 public class API
 {
-    public class Sender
+    public class SendMessage
     {
-        public int age {get;set;}
-        public string nickname {get;set;}
-        public string sex { get; set; }
-        public long user_id { get; set; }
-    }
-    
-    public class PrivateMessage
-    {
-        public int font { get; set; }
-        public string message { get; set; }
-        public long message_id { get; set; }
+        public SendMessage(string messageType, long userId, long groupId, string message, bool autoEscape)
+        {
+            message_type = messageType;
+            user_id = userId;
+            group_id = groupId;
+            this.message = message;
+            auto_escape = autoEscape;
+        }
+
         public string message_type { get; set; }
-        public string post_type { get; set; }
-        public string raw_message { get; set; }
-        public long self_id { get; set; }
-        public Sender sender { get; set; }
-        public string sub_type { get; set; }
-        public long target_id { get; set; }
-        public int time { get; set; }
         public long user_id { get; set; }
-    }
-
-    public static T? Convert<T>(string received)
-    {
-        var json = JsonNode.Parse(received);
-        //if (json["post_type"] == null) return null;
-        var postType = json["post_type"].ToString();
-
-
-        var result = JsonSerializer.Deserialize<T>(received);
-        return result;
+        public long group_id { get; set; }
+        public string message { get; set; }
+        public bool auto_escape { get; set; }
+    
     }
 }

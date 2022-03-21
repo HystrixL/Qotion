@@ -1,26 +1,34 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace Qotion.OneBot;
+namespace Qotion.OneBot.API;
 
-public class API
+public class SendMessage
 {
-    public class SendMessage
+    public SendMessage(string messageType, long userId, long groupId, string message, bool autoEscape)
     {
-        public SendMessage(string messageType, long userId, long groupId, string message, bool autoEscape)
-        {
-            message_type = messageType;
-            user_id = userId;
-            group_id = groupId;
-            this.message = message;
-            auto_escape = autoEscape;
-        }
-
-        public string message_type { get; set; }
-        public long user_id { get; set; }
-        public long group_id { get; set; }
-        public string message { get; set; }
-        public bool auto_escape { get; set; }
-    
+        message_type = messageType;
+        user_id = userId;
+        group_id = groupId;
+        this.message = message;
+        auto_escape = autoEscape;
     }
+
+    public string message_type { get; set; }
+    public long user_id { get; set; }
+    public long group_id { get; set; }
+    public string message { get; set; }
+    public bool auto_escape { get; set; }
+}
+
+class Request<T>
+{
+    public Request(string action, T @params)
+    {
+        this.action = action;
+        _params = @params;
+    }
+
+    public string action { get; set; }
+    public T _params { get; set; }
 }

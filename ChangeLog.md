@@ -47,3 +47,14 @@
 
 ### 修复
 - WebSocketClient 捕获异常类型过于宽泛
+
+## [0.5.0] - 2022-02-22
+
+### 新增
+
+- 适配OtherClientStatusChanged、OfflineFile、GroupNotify、FriendNotify、GroupRequestEvent
+- 适配DeleteMessage、SetFriendAddRequest、SetGroupAddRequest、GetVersionInfo、SetRestart、GetStatus、GetOnlineClientsAPI
+
+### 更改
+
+- 接着重构Event、API、Response、Request部分的结构

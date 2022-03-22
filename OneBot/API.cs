@@ -1,8 +1,8 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
+﻿namespace Qotion.OneBot.API;
 
-namespace Qotion.OneBot.API;
-
+/// <summary>
+/// 发送消息
+/// </summary>
 public class SendMessage
 {
     public SendMessage(string messageType, long userId, long groupId, string message, bool autoEscape)
@@ -21,14 +21,89 @@ public class SendMessage
     public bool auto_escape { get; set; }
 }
 
-class Request<T>
+/// <summary>
+/// 撤回消息
+/// </summary>
+public class DeleteMessage
 {
-    public Request(string action, T @params)
+    public DeleteMessage(int messageId)
     {
-        this.action = action;
-        _params = @params;
+        message_id = messageId;
     }
 
-    public string action { get; set; }
-    public T _params { get; set; }
+    public int message_id { get; set; }
+}
+
+/// <summary>
+/// 处理加好友请求
+/// </summary>
+public class SetFriendAddRequest
+{
+    public SetFriendAddRequest(string flag, bool approve, string remark)
+    {
+        this.flag = flag;
+        this.approve = approve;
+        this.remark = remark;
+    }
+
+    public string flag { get; set; }
+    public bool approve { get; set; }
+    public string remark { get; set; }
+}
+
+/// <summary>
+/// 处理加群请求
+/// </summary>
+public class SetGroupAddRequest
+{
+    public SetGroupAddRequest(string flag, string subType, string type, bool approve, string reason)
+    {
+        this.flag = flag;
+        sub_type = subType;
+        this.type = type;
+        this.approve = approve;
+        this.reason = reason;
+    }
+
+    public string flag { get; set; }
+    public string sub_type { get; set; }
+    public string type { get; set; }
+    public bool approve { get; set; }
+    public string reason { get; set; }
+}
+
+/// <summary>
+/// 获取cqhttp版本信息
+/// </summary>
+public class GetVersionInfo{}
+
+/// <summary>
+/// 重启cqhtp
+/// </summary>
+public class SetRestart
+{
+    public SetRestart(int delay)
+    {
+        this.delay = delay;
+    }
+
+    public int delay { get; set; }
+}
+
+/// <summary>
+/// 获取状态
+/// </summary>
+public class GetStatus{}
+
+/// <summary>
+/// 获取在线客户端列表
+/// </summary>
+public class GetOnlineClients
+{
+    public GetOnlineClients(bool noCache)
+    {
+        no_cache = noCache;
+    }
+
+    public bool no_cache { get; set; }
 }

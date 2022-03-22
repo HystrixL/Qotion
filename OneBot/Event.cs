@@ -17,7 +17,7 @@ public class Anonymous
     public string flag { get; set; }
 }
 
-public class PrivateMessage
+public class PrivateMessageEvent
 {
     public int font { get; set; }
     public string message { get; set; }
@@ -33,7 +33,7 @@ public class PrivateMessage
     public long user_id { get; set; }
 }
 
-public class GroupMessage
+public class GroupMessageEvent
 {
     public long time { get; set; }
     public long self_id { get; set; }
@@ -48,6 +48,17 @@ public class GroupMessage
     public string raw_message { get; set; }
     public int font { get; set; }
     public Sender Sender { get; set; }
+}
+
+public class FriendRequestEvent
+{
+    public long time { get; set; }
+    public long self_id { get; set; }
+    public string post_type { get; set; }
+    public string request_type { get; set; }
+    public long user_id { get; set; }
+    public string comment { get; set; }
+    public string flag { get; set; }
 }
 
 public static class Event

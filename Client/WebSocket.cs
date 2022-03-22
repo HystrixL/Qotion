@@ -177,7 +177,7 @@ public class WebSocket
                     //关闭WebSocket（客户端发起）
                     await ws.CloseAsync(closeStatus, statusDescription, CancellationToken.None);
                 }
-                catch (Exception ex)
+                catch (WebSocketException ex)
                 {
  
                 }

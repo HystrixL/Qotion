@@ -7,9 +7,13 @@ using Qotion.OneBot;
 using Qotion.OneBot.API;
 using Qotion.OneBot.Event;
 
+Console.WriteLine("Please enter your account:");
+var account = Int64.Parse(Console.ReadLine() ?? string.Empty);
+Console.WriteLine("Please enter the cqhttp port:");
+var port = Console.ReadLine();
 
-WebSocket wsEvent = new WebSocket("ws://127.0.0.1:6789/event");
-WebSocket wsApi = new WebSocket("ws://127.0.0.1:6789/api");
+WebSocket wsEvent = new WebSocket($"ws://127.0.0.1:{port}/event");
+WebSocket wsApi = new WebSocket($"ws://127.0.0.1:{port}/api");
 wsEvent.OnMessage += ReceivedMessage;
 wsEvent.Open();
 
@@ -23,8 +27,8 @@ void ReceivedMessage(object sender, string data)
     if(postType!="message") return;
     var messageType = json["message_type"].ToString();
     if(messageType!="private") return;
-    var privateMessage = Event.Convert<PrivateMessage>(data);
-    var message = new SendMessage("private", 3033619778, 0, $"你发送的信息是{privateMessage.message}，现在是{DateTime.Now}。信息自动处理完成。", true);
+    var privateMessage = Event.Convert<PrivateMessageEvent>(data);
+    var message = new SendMessage("private", account, 0, $"你发送的信息是{privateMessage.message}，现在是{DateTime.Now}。信息自动处理完成。", true);
     var request = new Request<SendMessage>("send_private_msg",message);
     wsApi.OnMessage += (o, s) => Console.WriteLine(s);
     wsApi.Open();

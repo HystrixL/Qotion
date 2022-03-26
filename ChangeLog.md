@@ -58,3 +58,10 @@
 ### 更改
 
 - 接着重构Event、API、Response、Request部分的结构
+
+## [0.6.0] - 2022-02-26
+
+### 新增
+
+- Notion API增加/查询Page测试
+- Http操作测试

@@ -3,11 +3,27 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Qotion.Client;
-using RestSharp;
+using Qotion.Notion;
 using OntBotAPI = Qotion.OneBot.API;
 using OneBotEvent =  Qotion.OneBot.Event;
 using OneBotRequest = Qotion.OneBot.Request;
 using OneBotResponse = Qotion.OneBot.Response;
+
+string secret = "";
+
+void GetSecret()
+{
+    if (File.Exists(".\\secret.txt"))
+    {
+        secret = File.ReadAllText(".\\secret.txt");
+    }
+    else File.Create(".\\secret.txt");
+    if (secret != "") return;
+    
+    Console.WriteLine("Please Enter Your Notion API Token in secret.txt");
+    Environment.Exit(0);
+}
+
 
 void WebSocketExample()
 {
@@ -44,13 +60,11 @@ void NotionAPIExample()
 {
     JsonSerializer.Deserialize<Object>(
         "{\"parent\":{\"type\":\"page_id\",\"page_id\":\"d9b6094e-cc20-4bae-ba36-ef63c829fb9d\"},\"properties\":{\"title\":{\"id\":\"title\",\"type\":\"title\",\"title\":[{\"type\": \"text\",\"text\": {\"content\": \"Created By Qotion using C#\"}}]}}}");
-    
-    
-    //create();
 
-    var result = GetHttpResponse("https://api.notion.com/v1/pages/0390028bb9d04ae29065495907db034c");
+    var result = Http.GetHttpResponse("https://api.notion.com/v1/pages/0390028bb9d04ae29065495907db034c",secret);
     Console.WriteLine(result);
     
+    /*
     void retrieve()
     {
         var client = new RestClient("https://api.notion.com/v1/pages/0390028bb9d04ae29065495907db034c");
@@ -79,60 +93,10 @@ void NotionAPIExample()
             var result =  client.ExecuteAsync(request).Result;
             Console.WriteLine(result.Content);
     }
+    */
 }
 
+GetSecret();
 NotionAPIExample();
 
 Console.ReadLine();
-
-string PostHttpRequest(string url, string content)
-{
-    string result = "";
-    HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-    req.Method = "POST";
-    req.ContentType = "application/json";
-    req.Headers.Add("Accept", "application/json");
-    req.Headers.Add("Authorization", "Bearer secret_KN7qL2RFIWHEhFT8kZbNoe07xCjqXK25X05xhSL6DSc");
-    req.Headers.Add("Notion-Version", "2022-02-22");
-    
-    byte[] data = Encoding.UTF8.GetBytes(content);
-    req.ContentLength = data.Length;
-    using (Stream reqStream = req.GetRequestStream())
-    {
-        reqStream.Write(data, 0, data.Length);
-        reqStream.Close();
-    }
-
-    HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-    Stream stream = resp.GetResponseStream();
-    //获取响应内容
-    using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-    {
-        result = reader.ReadToEnd();
-        reader.Close();
-    }
-    stream.Close();
-    resp.Close();
-    req.Abort();
-
-    return result;
-}
-
-string GetHttpResponse(string url)
-{
-    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-    request.Method = "GET";
-    request.Accept = "application/json";
-    request.Headers.Add("Authorization", "Bearer secret_KN7qL2RFIWHEhFT8kZbNoe07xCjqXK25X05xhSL6DSc");
-    request.Headers.Add("Notion-Version", "2022-02-22");
-
-    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-    Stream myResponseStream = response.GetResponseStream();
-    StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
-    string retString = myStreamReader.ReadToEnd();
-    myStreamReader.Close();
-    myResponseStream.Close();
-    response.Close();
-
-    return retString;
-}
